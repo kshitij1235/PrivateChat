@@ -4,7 +4,7 @@
 A brief description of what this project does and who it's for
 
 <<<<<<< Updated upstream
-    This app is a personal chatting app it can be used with local host or with static ip , But note that this version only suppots 1 v 1 chat room 
+    This app is a personal chatting app it can be used with local host or with static ip , and support multi client
 =======
     This app is a personal chatting app it can be used with local host or with static ip 
     this app supports multi client communication
