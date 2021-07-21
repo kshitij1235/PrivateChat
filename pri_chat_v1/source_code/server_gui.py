@@ -6,6 +6,7 @@ import socket
 # achive random values 
 import random
 
+import time 
 # gui module 
 import tkinter as tk
 from tkinter import *
@@ -34,39 +35,85 @@ class server_():
             print("unable to start ;( ")
 
         try:
-            t2 = threading.Thread(target=server_.push, args=())
+            t2 = threading.Thread(target=server_.pull, args=())
             t2.start()
             print("thread 2 deploy")
         except:
             print("unable to load send messaage module (thread)")
 
+        try:
+            t3 = threading.Thread(target=server_.update, args=())
+            t3.start()
+            print("thread 3 deploy")
+        except:
+            print("unable to load send all messaage module (thread)")
 
-        t3 = threading.Thread(target=server_.pull, args=())
-        t3.start()
         print("-----------------all-threats-depolyed----------------------------------")
 
 
-    def pull():
+    def update():
         while True:
+            config_button['text'] = str(len(connected))+' USERS IN ROOM : '
+            time.sleep(5)
+
+
+    def doSomething():
+        try:
+            if len(connected)==0:
+                root.destroy()
+            else:
+                for i in connected:
+                    try:
+                        print("SENDING MESSAGE TO CLIENT ABOUT DISCONNET....")
+                        i.send(bytes('SERVER WAS CLOSED BY THE HOST','utf-8'))
+                        print("DRSTROYING THE WINDOW")
+                        exit()
+                    except:
+                        exit()
+                        pass
+        except:
+            root.destroy()
+
+
+
+    def push_all_client():
+        while True:
+            for i in connected:
+                try:
+                    i.send(bytes(rec_messages,'utf-8'))
+                except:
+                    print("failed to pushh all")
+
+#this pulls the message 
+    def pull():
+
+        global rec_messages
+
+        while True:
+
+            # this loop when message recived 
             try:
+            #reciving  message of  numberous cleint 
                 for i in connected:
                     try:
                         rec_messages=(i.recv(10232).decode())
+                        if rec_messages=='A':
+                            continue
                         try:
                             id_to_remove=int(rec_messages)
                             print("removing",id_to_remove," .......")
                             connected.pop(id_to_remove-1)
-
+                            continue
                         except:
                             pass
-                        template=rec_messages+'\n'
-                        view_window.insert(END,template)
+                        
+                        view_window.insert(END,rec_messages+'')
+                    #this is to push the message to output windows for user experience    
                     except:
                         pass
-
+            # this is when message dont recived 
             except:
                 continue
-
 
 # this functions help to send message
 
@@ -106,30 +153,28 @@ class server_():
 # this fuction connect you with your port 
 
     def port_cheak():
+        global connected #data of connected people (global ver toi make it accessableto everyone)
+        global port 
+        global username     #username of yours (this will be global)
 
         #vars 
         reconnect=0  #this var limits reconnecting attempt
+        connected=[]  #ALL THE CONENCTED CONENTIONS 
 
-        ip=fetch_ip
 
-        global connected #data of connected people (global ver toi make it accessableto everyone)
-        connected=[]
         
-        global port 
         port=host_config.get()
         port=int(port[len_ip+1:len_ip+5])  #port number
         port_text=str(port) #port to display it to user
 
-        global username     #username of yours (this will be global)
-        username=username_config.get()
-
+        username=username_config.get()  #GET USER NAME
 
         # update the user 
         config_button['text'] = 'TRYING TO CONNECT.....'
 
         try:
 
-            config_button['text'] = 'IP SET : '+ip
+            config_button['text'] = 'IP SET : '+fetch_ip
 
             try: 
 
@@ -151,7 +196,7 @@ class server_():
 
 
                 # this is a update to status menu in gui 
-                config_button['text'] = 'CONNECTED TO PORT : '+port_text
+                config_button['text'] = 'CONNECTED TO PORT : '+str(port)
                 config_button.config(bg='light green')
 
             except:
@@ -159,7 +204,7 @@ class server_():
                 reconnect=reconnect+1
 
                 #this is update to status menu in gui
-                config_button['text'] = 'PROBLEM CONNECTING'+port_text
+                config_button['text'] = 'PROBLEM CONNECTING'+str(port)
                 config_button.config(bg='red')
 
                 if reconnect>4:
@@ -172,7 +217,7 @@ class server_():
             if reconnect>4:
                 server_.port_cheak()
 
-        config_button['text'] = 'WAITING ON PORT : '+port_text
+        config_button['text'] = 'CONNECTED ON PORT : '+str(port)
 
         #all the connection work is handel here 
 
@@ -187,13 +232,17 @@ class server_():
 #GETTING THE USERNAME
 
 
+
+        view_window.config(bg='white')
+
         while True:
-            view_window.config(bg='white')
             c,addr=server.accept()
             connected.append(c)
+            print(socket.gethostname()," entered the room")
             c.send(bytes(str(len(connected)),'utf-8'))
+            
             print(connected)
-            c.send(bytes("you are connected to the server",'utf-8'))
+            c.send(bytes("WELCOME TO SERVER : "+username,'utf-8'))
             print("connected with ",addr)
             print(connected)
             
@@ -212,7 +261,7 @@ root = tk.Tk()
 root.title("server")
 
 try:
-    root.iconbitmap('media//icon_chat_app.ico')
+    root.iconbitmap('F:\kshitij\python\prichat\chat app\chat\media\icon_chat_app.ico')
 except:
     print("cant load icon")
 
@@ -220,9 +269,9 @@ except:
 root.config(bg="white")
 
 #SCREENSIZE
-root.geometry("300x400")
-root.minsize(300,400)
-root.maxsize(300,400)
+root.geometry("300x391")
+root.minsize(300,391)
+root.maxsize(300,391)
 
  
 # status bar 
@@ -244,7 +293,7 @@ len_ip=len(fetch_ip)
 print("ip_lenght : ",len_ip)
 
 # Generator of username 
-fetch_hostname='username'+str(random.randint(100,9999))
+fetch_hostname='SERVER'+str(random.randint(100,9999))
 
 
 # PRINTING DETAILS 
@@ -264,17 +313,18 @@ username_config.place(x =150,y =25,width=151,height=35)
 username_config.insert(END,fetch_hostname)
 
 #message window
-view_window= Text(root, width=38,height=19,bg='grey',borderwidth=0)
+view_window= Text(root, width=38,height=17,bg='grey',borderwidth=0)
 view_window.place(y=65,x=0)
 
 # text message section   
 message_ = tk.Entry(root,borderwidth=1)
-message_.place(x =0,y = 345,width=245,height=47)
+message_.place(x =0,y = 340,width=245,height=47)
 
 # message sending 
 send_button = Button(root, text ="send",height=3,width=8,borderwidth=0,bg='light green',command=server_.push) 
-send_button.place(x=244, y=346)
+send_button.place(x=244, y=340)
 root.bind('<Return>',lambda event:server_.push())
 
+root.protocol('WM_DELETE_WINDOW', server_.doSomething)  
 
 root.mainloop()
