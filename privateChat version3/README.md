@@ -20,11 +20,11 @@ Install my-project with npm
 
 Huge Optimizations are made to the software it also includes some tweeks in ui 
 
-1)pylint rate - 6.52
-2)It actually Used 2% less memeory and very less cpu ushage
+pylint rate - 6.52,It actually Used 2% less memeory and very less cpu ushage
+
 ## Additions
 
-- Status bar is not dynamic express left or entered members
+- Status bar is now dynamic and now display left or entered members
 - Huge optimizations are made to the software so aa lot of things are reworked
 
 
