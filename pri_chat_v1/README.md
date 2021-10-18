@@ -7,7 +7,6 @@ This app is a personal chatting app it can be used with local host or with stati
 =======
     This app is a personal chatting app it can be used with local host or with static ip 
     this app supports multi client communication
->>>>>>> Stashed changes
   
 ## Installation
 
