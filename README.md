@@ -22,7 +22,7 @@ Huge Optimizations are made to the software it also includes some tweeks in ui
 2)It actually Used 2% less memeory and very less cpu ushage
 ## Additions
 
-- Status bar is not dynamic express left or entered members
+- Status bar is now dynamic express left or entered members
 - Huge optimizations are made to the software so aa lot of things are reworked
 
 
