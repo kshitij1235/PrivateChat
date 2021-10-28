@@ -29,8 +29,8 @@ Huge Optimizations are made to the software it also includes some tweeks in ui
 
 
 ## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![client_screenshot](https://user-images.githubusercontent.com/65331304/139207045-d21e4e24-023c-4018-9ad8-88aa42091f62.jpg)
+![server_screenshot](https://user-images.githubusercontent.com/65331304/139207065-ea6f486d-ab41-4b2a-a1bd-9368520e23b4.jpg)
 
   
 ## Support
