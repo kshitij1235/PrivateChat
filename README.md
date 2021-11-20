@@ -18,8 +18,8 @@ There is actually no Installation required just launch the app and rock
 
 Huge Optimizations are made to the software it also includes some tweeks in ui 
 
-1)pylint rate - 6.52,
-2)It actually Used 2% less memeory and very less cpu ushage
+- pylint rate - 6.52,
+- It actually Used 2% less memeory and very less cpu ushage
 ## Additions
 
 - Status bar is now dynamic express left or entered members
