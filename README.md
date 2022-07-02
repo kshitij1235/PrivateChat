@@ -8,9 +8,6 @@ this app supports multi client communication
 
 ## Installation
 
-Install my-project with npm
-
-
 There is actually no Installation required just launch the app and rock
 
 
